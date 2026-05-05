@@ -1,6 +1,6 @@
 # Терминологический словарь (Terminology Dictionary)
 
-Данный файл содержит определения терминов, используемых в VAD Ontology (ver9d) и проекте RDF Grapher.
+Данный файл содержит определения терминов, используемых в VAD Ontology (ver1) и проекте warchi-ld.
 
 ---
 
@@ -366,10 +366,7 @@ vad:t_another {
 
 - [VAD Ontology](vad-basic-ontology.ttl) — основной файл онтологии
 - [VAD Ontology Tech Appendix](vad-basic-ontology_tech_Appendix.ttl) — технологическое приложение к онтологии
-- [RDF Grapher ver9d](index.html) — основное приложение, корень ver9d
-- [UI Documentation](ui-documentation.md) — документация по интерфейсу пользователя, см. https://github.com/bpmbpm/rdf-grapher/blob/main/ver8tree/doc/ui-documentation.md 
-## 9. Архив
-- ver8tree [Appendix to Ontology](appendix-to-ontology.md) — приложение к онтологии с матрицами предикатов, см. https://github.com/bpmbpm/rdf-grapher/blob/main/ver8tree/doc/appendix-to-ontology.md
+
 ## 10. Связанные термины
 - физический экземпляр процессе - как пример исполняемый экземпляр в BPMN-engine (camunda, runa), т.е. у него в атрибутах будет: время старта и финиша и т.п. У концепта процесса - свой набор атрибутов, у индивида процесса - свой (идин из них ссылка на концепт процесса), а у исполняемого (физического) экземпляра - свой, в том числе ссылка на индивид процесса.  
 Идея (концепт процесса, исполнителя) -> копии идеи в схемах (индивиды процессов, исполнителей) -> физическая реализация индивида в реальности, т.е. не в схеме \ шаблоне (исполняемый экземпляр процесса, запущенный в 12:12 в таком то instance такой-то BPMN-engine).

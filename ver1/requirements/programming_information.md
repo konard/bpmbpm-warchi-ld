@@ -7,7 +7,7 @@
 - только браузерный js (node.js не используем)
 - развертывание (запуск) как на https://bpmbpm.github.io (другом статическом web - server), так и локально. 
 #### programming concept
-- Максимальное использование в коде SPARQL-запросов, см. [SPARQL-driven Programming Guide](https://github.com/bpmbpm/warchi-ld/blob/main/ver1/requirements/sparql-driven-programming_min1.md). При необходимости создавай собственные функции на основе SPARQL-запросов. 
+- Максимальное использование в коде SPARQL-запросов, как образец см. [SPARQL-driven Programming Guide](https://github.com/bpmbpm/warchi-ld/blob/main/ver1/requirements/sparql-driven-programming_min2.md). Создавй собственные функции на основе SPARQL-запросов по аналогии с указанным образцом и размести в папке https://github.com/bpmbpm/warchi-ld/blob/main/ver1/requirements. 
 - Формирование наборов SPARQL-запросов в отдельных файлах *sparql.js
 - периодически в promt добавлять: Напоминаю о приоритете SPARQL-driven Programming (Программирование на основе SPARQL).
   

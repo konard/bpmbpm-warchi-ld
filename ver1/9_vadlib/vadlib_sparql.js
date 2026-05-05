@@ -349,8 +349,8 @@ if (typeof comunicaEngine === 'undefined') {
                             global.comunicaEngine = engine;
                         }
                     } else {
-                        console.error('funSPARQLvaluesComunica: Comunica не загружена, fallback на funSPARQLvalues');
-                        return funSPARQLvalues(sparqlQuery, variableName);
+                        console.error('funSPARQLvaluesComunica: Comunica не загружена, возврат пустого результата');
+                        return results;
                     }
                 }
 
@@ -390,8 +390,8 @@ if (typeof comunicaEngine === 'undefined') {
             } catch (error) {
                 console.error('funSPARQLvaluesComunica error:', error);
                 // Fallback на простую реализацию при ошибке Comunica
-                console.log('funSPARQLvaluesComunica: Fallback на funSPARQLvalues');
-                return funSPARQLvalues(sparqlQuery, variableName);
+                console.log('funSPARQLvaluesComunica: Ошибка Comunica, возврат пустого результата');
+                return results;
             }
 
             return results;

@@ -6,18 +6,22 @@
             const output = document.getElementById('output');
             const resultContainer = document.getElementById('result-container');
 
-            resultContainer.style.display = 'block';
-            output.innerHTML = `
+            if (resultContainer) resultContainer.style.display = 'block';
+            if (output) output.innerHTML = `
                 <div class="loading">
                     <div class="spinner"></div>
                     <p>Обработка RDF данных...</p>
                 </div>
             `;
 
-            document.getElementById('export-buttons').style.display = 'none';
-            document.getElementById('zoom-controls').style.display = 'none';
-            document.getElementById('prefixes-panel').style.display = 'none';
-            document.getElementById('legend-panel').style.display = 'none';
+            const exportBtns = document.getElementById('export-buttons');
+            const zoomCtrls = document.getElementById('zoom-controls');
+            const prefixPanel = document.getElementById('prefixes-panel');
+            const legendPanel = document.getElementById('legend-panel');
+            if (exportBtns) exportBtns.style.display = 'none';
+            if (zoomCtrls) zoomCtrls.style.display = 'none';
+            if (prefixPanel) prefixPanel.style.display = 'none';
+            if (legendPanel) legendPanel.style.display = 'none';
             // filter-panel removed in minimization
         }
 
@@ -47,7 +51,7 @@
             const vadTrigOutput = document.getElementById('vad-trig-output');
             const vadTrigContainer = document.getElementById('vad-trig-container');
 
-            resultContainer.style.display = 'block';
+            if (resultContainer) resultContainer.style.display = 'block';
             // Заменяем переносы строк на <br> для корректного отображения в HTML
             const formattedMessage = message.replace(/\n/g, '<br>');
             const errorHtml = `<div class="error"><strong>Ошибка:</strong> ${formattedMessage}</div>`;
@@ -59,15 +63,19 @@
             }
 
             // Всегда показываем ошибку в основном output (для не-VAD-TriG режимов или при переключении)
-            output.innerHTML = errorHtml;
+            if (output) output.innerHTML = errorHtml;
 
             // Скрываем VAD-TriG панели при ошибке, чтобы показать основной output
-            toggleVADTriGPanels(false);
+            if (typeof toggleVADTriGPanels === 'function') toggleVADTriGPanels(false);
 
-            document.getElementById('export-buttons').style.display = 'none';
-            document.getElementById('zoom-controls').style.display = 'none';
-            document.getElementById('prefixes-panel').style.display = 'none';
-            document.getElementById('legend-panel').style.display = 'none';
+            const exportBtns2 = document.getElementById('export-buttons');
+            const zoomCtrls2 = document.getElementById('zoom-controls');
+            const prefixPanel2 = document.getElementById('prefixes-panel');
+            const legendPanel2 = document.getElementById('legend-panel');
+            if (exportBtns2) exportBtns2.style.display = 'none';
+            if (zoomCtrls2) zoomCtrls2.style.display = 'none';
+            if (prefixPanel2) prefixPanel2.style.display = 'none';
+            if (legendPanel2) legendPanel2.style.display = 'none';
             // filter-panel removed in minimization
         }
 
@@ -77,7 +85,7 @@
             const vadTrigOutput = document.getElementById('vad-trig-output');
             const vadTrigContainer = document.getElementById('vad-trig-container');
 
-            resultContainer.style.display = 'block';
+            if (resultContainer) resultContainer.style.display = 'block';
             const errorHtml = `<div class="validation-error">${message}</div>`;
 
             // Если активен режим VAD-TriG, показываем ошибку также в его контейнере
@@ -87,15 +95,19 @@
             }
 
             // Всегда показываем ошибку в основном output (для не-VAD-TriG режимов или при переключении)
-            output.innerHTML = errorHtml;
+            if (output) output.innerHTML = errorHtml;
 
             // Скрываем VAD-TriG панели при ошибке, чтобы показать основной output
-            toggleVADTriGPanels(false);
+            if (typeof toggleVADTriGPanels === 'function') toggleVADTriGPanels(false);
 
-            document.getElementById('export-buttons').style.display = 'none';
-            document.getElementById('zoom-controls').style.display = 'none';
-            document.getElementById('prefixes-panel').style.display = 'none';
-            document.getElementById('legend-panel').style.display = 'none';
+            const exportBtns3 = document.getElementById('export-buttons');
+            const zoomCtrls3 = document.getElementById('zoom-controls');
+            const prefixPanel3 = document.getElementById('prefixes-panel');
+            const legendPanel3 = document.getElementById('legend-panel');
+            if (exportBtns3) exportBtns3.style.display = 'none';
+            if (zoomCtrls3) zoomCtrls3.style.display = 'none';
+            if (prefixPanel3) prefixPanel3.style.display = 'none';
+            if (legendPanel3) legendPanel3.style.display = 'none';
             // filter-panel removed in minimization
         }
 

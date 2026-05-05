@@ -373,7 +373,18 @@
                     <button class="btn" onclick="zoomOut_()">−</button>
                     <button class="btn" onclick="zoomReset_()">100%</button>
                 </div>
-                <div id="output" class="output-container"></div>
+                <div id="result-container" style="display:none;">
+                    <div id="zoom-container">
+                        <div id="zoom-controls" style="display:none;"></div>
+                        <div id="output" class="output-container"></div>
+                    </div>
+                    <div id="vad-trig-container" style="display:none;">
+                        <div id="vad-trig-zoom-controls" style="display:none;"></div>
+                        <div id="vad-trig-output" class="output-container"></div>
+                    </div>
+                </div>
+                <div id="export-buttons" style="display:none;"></div>
+                <div id="legend-panel" style="display:none;"><div id="legend-content"></div></div>
                 <div id="error-output" class="error-output" style="display:none;"></div>
             </div>
         </div>
@@ -510,9 +521,15 @@
 <script src="https://unpkg.com/n3/browser/n3.min.js"></script>
 <!-- Comunica — SPARQL движок -->
 <script src="https://unpkg.com/@comunica/query-sparql-rdfjs@3/comunica-browser.js"></script>
-<!-- Viz.js — рендеринг Graphviz -->
-<script src="https://unpkg.com/viz.js/viz.js"></script>
-<script src="https://unpkg.com/viz.js/full.render.js"></script>
+<!-- Viz.js — рендеринг Graphviz (v2.x) -->
+<script src="https://unpkg.com/viz.js@2.1.2/viz.js"></script>
+<script src="https://unpkg.com/viz.js@2.1.2/full.render.js"></script>
+<script>
+/* Shim: Viz.instance() для совместимости с кодом, использующим API v3 */
+if (typeof Viz === 'function' && !Viz.instance) {
+    Viz.instance = function() { return Promise.resolve(new Viz()); };
+}
+</script>
 
 <!-- =====================================================================
      МОДУЛИ ПРИЛОЖЕНИЯ (порядок важен — зависимости снизу вверх)

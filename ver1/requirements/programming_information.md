@@ -1,19 +1,19 @@
 ### programming information
-Это памятка к программированию по проекту warchi-ld. Папка проекта: https://github.com/bpmbpm/rdf-grapher/tree/main/ver9d  
+Это памятка к программированию по проекту warchi-ld. Папка проекта: https://github.com/bpmbpm/warchi-ld/tree/main/ver1   
 Можно изменять только эту и вложенные в нее папку.  
 Комментарии в коде и файлы md создавай на русском языке.  
 
 #### js
 - только браузерный js (node.js не используем)
 #### programming concept
-- Максимальное использование в коде SPARQL-запросов, см. [SPARQL-driven Programming Guide](https://github.com/bpmbpm/rdf-grapher/blob/main/ver9d/requirements/sparql-driven-programming_min1.md)
+- Максимальное использование в коде SPARQL-запросов, см. [SPARQL-driven Programming Guide](https://github.com/bpmbpm/warchi-ld/blob/main/ver1/requirements/sparql-driven-programming_min1.md). При необходимости создавай собственные функции на основе SPARQL-запросов. 
 - Формирование наборов SPARQL-запросов в отдельных файлах *sparql.js
 - периодически в promt добавлять: Напоминаю о приоритете SPARQL-driven Programming (Программирование на основе SPARQL).
   
 ### Ontology 
-- [Basic VAD Ontology - Базовая онтология верхнеуровневых процессов](https://github.com/bpmbpm/rdf-grapher/blob/main/ver9d/ontology/vad-basic-ontology.trig) (ранее .ttl)
-- Технологическая часть онтологии [Tech Appendix - Технологические классы и объекты](https://github.com/bpmbpm/rdf-grapher/blob/main/ver9d/ontology/vad-basic-ontology_tech_Appendix.trig) (ранее .ttl)
-- [Терминологический словарь (Terminology Dictionary)](https://github.com/bpmbpm/rdf-grapher/blob/main/ver9d/ontology/term.md), например,  ptree - это хранилище концептов процесса, а индивиды процесса хранятся в TriG типа VADProcessDia.
+- [Basic VAD Ontology - Базовая онтология верхнеуровневых процессов](https://github.com/bpmbpm/warchi-ld/blob/main/ver1/ontology/vad-basic-ontology.trig) 
+- Технологическая часть онтологии [Tech Appendix - Технологические классы и объекты](https://github.com/bpmbpm/warchi-ld/blob/main/ver1/ontology/vad-basic-ontology_tech_Appendix.trig) (ранее .ttl)
+- [Терминологический словарь (Terminology Dictionary)](https://github.com/bpmbpm/warchi-ld/blob/main/ver1/ontology/term.md), например,  ptree - это хранилище концептов процесса, а индивиды процесса хранятся в TriG типа VADProcessDia.
 #### Наименования obj & predicate
 - имена классов / подклассов / типов : пишутся в формате UpperCamelCase (как в Java), а имена предикатов - в формате lowerCamelCase. 
  
@@ -25,4 +25,4 @@
 - используй quadstore in-memory для хранения TriG 
 
 ### File naming conventions
-Используй Соглашение по именованию файлов https://github.com/bpmbpm/rdf-grapher/blob/main/ver9d/requirements/file_naming.md
+Используй Соглашение по именованию файлов https://github.com/bpmbpm/warchi-ld/blob/main/ver1/requirements/file_naming.md

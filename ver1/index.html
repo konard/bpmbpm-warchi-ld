@@ -58,13 +58,13 @@
     <div class="menu-item" id="menu-edit">
         <span class="menu-item-label">Правка</span>
         <div class="menu-dropdown" id="dropdown-edit">
-            <div class="menu-dropdown-item" onclick="openNewConceptModal()">Новый концепт</div>
-            <div class="menu-dropdown-item" onclick="openNewIndividModal()">Новый индивид</div>
-            <div class="menu-dropdown-item" onclick="openNewTrigModal()">Новая схема (TriG)_</div>
-            <div class="menu-dropdown-separator"></div>
             <div class="menu-dropdown-item" onclick="openDelConceptModal()">Удалить концепт/индивид/схему</div>
             <div class="menu-dropdown-separator"></div>
             <div class="menu-dropdown-item" onclick="showRdfEditWindow()">Редактировать RDF…</div>
+            <div class="menu-dropdown-separator"></div>
+            <div class="menu-dropdown-item" onclick="openNewConceptModal()">Smart Design: Новый концепт_</div>
+            <div class="menu-dropdown-item" onclick="openNewIndividModal()">Smart Design: Новый индивид_</div>
+            <div class="menu-dropdown-item" onclick="openNewTrigModal()">Smart Design: Новая схема (TriG)_</div>
         </div>
     </div>
 
@@ -82,6 +82,8 @@
             <div class="menu-dropdown-item" onclick="togglePanel('8_infoSPARQL')">SPARQL_</div>
             <div class="menu-dropdown-separator"></div>
             <div class="menu-dropdown-item" onclick="refreshVisualization()">Обновить диаграмму</div>
+            <div class="menu-dropdown-separator"></div>
+            <div class="menu-dropdown-item" onclick="toggleDebugWindow()">Окно отладки</div>
         </div>
     </div>
 
@@ -134,21 +136,13 @@
         <span class="toolbar-icon">&#128190;</span>
     </button>
     <div class="toolbar-separator"></div>
-    <button class="toolbar-btn" onclick="openNewConceptModal()" title="Новый концепт процесса">
-        <span class="toolbar-icon">&#10010;</span> Концепт
-    </button>
-    <button class="toolbar-btn" onclick="openNewIndividModal()" title="Новый индивид">
-        <span class="toolbar-icon">&#10010;</span> Индивид
-    </button>
-    <button class="toolbar-btn" onclick="openNewTrigModal()" title="Новая схема TriG">
-        <span class="toolbar-icon">&#10010;</span> Схема_
-    </button>
-    <div class="toolbar-separator"></div>
     <button class="toolbar-btn" onclick="refreshVisualization()" title="Обновить диаграмму">
         <span class="toolbar-icon">&#8635;</span>
     </button>
     <button class="toolbar-btn" onclick="exportSVG()" title="Экспорт SVG">SVG</button>
     <button class="toolbar-btn" onclick="exportPNG()" title="Экспорт PNG">PNG</button>
+    <div class="toolbar-separator"></div>
+    <button class="toolbar-btn toolbar-btn--secondary" onclick="toggleDebugWindow()" title="Окно отладки">Лог</button>
     <div class="toolbar-separator"></div>
     <!-- Фильтр TriG -->
     <select id="trig-filter" onchange="updateTrigFilter()" title="Фильтр TriG данных" class="toolbar-select">
@@ -296,13 +290,25 @@
             </div>
         </div>
 
-        <!-- Smart Design -->
+        <!-- Smart Design (вторичный блок «Диаграмма как код») -->
         <div class="window-section" id="window-3_sd">
             <div class="window-header" onclick="togglePanel('3_sd')">
-                <h3>Smart Design</h3>
+                <h3>Smart Design_ (Диаграмма как код)</h3>
                 <span class="window-toggle" id="toggle-3_sd">&#9660;</span>
             </div>
             <div class="window-content" id="content-3_sd">
+                <!-- Кнопки создания концептов/индивидов/схем — перенесены сюда из тулбара -->
+                <div class="smart-design-toolbar">
+                    <button class="toolbar-btn" onclick="openNewConceptModal()" title="Новый концепт процесса">
+                        <span class="toolbar-icon">&#10010;</span> Концепт
+                    </button>
+                    <button class="toolbar-btn" onclick="openNewIndividModal()" title="Новый индивид">
+                        <span class="toolbar-icon">&#10010;</span> Индивид
+                    </button>
+                    <button class="toolbar-btn" onclick="openNewTrigModal()" title="Новая схема TriG">
+                        <span class="toolbar-icon">&#10010;</span> Схема_
+                    </button>
+                </div>
                 <div class="smart-design-container" id="smart-design-container">
                     <!-- Заполняется через 3_sd_ui.js -->
                 </div>
@@ -322,10 +328,39 @@
             </div>
         </div>
 
-        <!-- Визуализация (Publisher) -->
+        <!-- Классический редактор диаграмм (PRIMARY) -->
+        <div class="window-section" id="window-editor">
+            <div class="window-header" onclick="togglePanel('editor')">
+                <h3>&#128396; Редактор диаграмм</h3>
+                <span class="window-toggle" id="toggle-editor">&#9660;</span>
+            </div>
+            <div class="window-content" id="content-editor">
+                <div class="editor-toolbar">
+                    <button class="btn btn-primary" id="editor-refresh-btn" onclick="editorRefresh()" title="Загрузить текущий граф в редактор">&#8635; Обновить</button>
+                    <span class="editor-toolbar-info" id="editor-trig-label" style="font-size:11px;color:#555;">Выберите граф в дереве и нажмите «Обновить»</span>
+                </div>
+                <div class="editor-layout">
+                    <!-- Палитра (трафарет) -->
+                    <div class="editor-palette-panel">
+                        <div class="editor-palette-title">Трафарет</div>
+                        <div id="editor-palette" class="editor-palette"></div>
+                        <div class="editor-props-title" style="margin-top:12px;">Свойства</div>
+                        <div id="editor-props-panel" class="editor-props">
+                            <div style="color:#aaa;font-size:11px;padding:6px;">Выберите фигуру</div>
+                        </div>
+                    </div>
+                    <!-- Холст -->
+                    <div class="editor-canvas-wrapper">
+                        <div id="editor-canvas-container" class="editor-canvas-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Визуализация (Publisher) — Graphviz SVG -->
         <div class="window-section" id="window-5_publisher">
             <div class="window-header" onclick="togglePanel('5_publisher')">
-                <h3>Диаграмма</h3>
+                <h3>Диаграмма (Graphviz)</h3>
                 <span class="window-toggle" id="toggle-5_publisher">&#9660;</span>
             </div>
             <div class="window-content" id="content-5_publisher">
@@ -453,6 +488,21 @@
     </div>
 </div>
 
+<!-- Окно отладки (растягиваемое, перетаскиваемое) -->
+<div id="debug-window" class="debug-window" style="display:none;">
+    <div class="debug-window-header">
+        <span>Отладка</span>
+        <div class="debug-window-controls">
+            <button class="btn debug-btn-small" onclick="clearDebugLog()" title="Очистить лог">Очистить</button>
+            <button class="debug-window-close" onclick="toggleDebugWindow()" title="Закрыть">&#10005;</button>
+        </div>
+    </div>
+    <div class="debug-window-body">
+        <pre id="debug-log-content" class="debug-log-content"></pre>
+    </div>
+    <div class="debug-window-resize-handle"></div>
+</div>
+
 <!-- =====================================================================
      БИБЛИОТЕКИ (CDN — браузерный JS)
      ===================================================================== -->
@@ -502,6 +552,7 @@
 <script src="5_publisher/5_publisher_treeview/5_publisher_treeview_ui.js"></script>
 <script src="5_publisher/5_publisher_logic.js"></script>
 <script src="5_publisher/5_publisher_ui.js"></script>
+<script src="5_publisher/5_publisher_editor.js"></script>
 
 <!-- Легенда -->
 <script src="6_legend/6_legend_ui.js"></script>

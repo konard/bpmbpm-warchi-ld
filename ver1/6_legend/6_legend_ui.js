@@ -332,7 +332,7 @@
 
             html += '</div>';
 
-            legendContent.innerHTML = html;
-            legendPanel.style.display = 'block';
+            if (legendContent) legendContent.innerHTML = html;
+            if (legendPanel) legendPanel.style.display = 'block';
         }
 

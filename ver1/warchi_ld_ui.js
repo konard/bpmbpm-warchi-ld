@@ -3,6 +3,39 @@
 // Новые элементы UI (относительно warchi.ru) помечены "_" в конце названия
 
 // ============================================================================
+// ОТЛАДОЧНЫЙ ЛОГ
+// ============================================================================
+
+var debugLogLines = [];
+
+/**
+ * Добавляет строку в отладочный лог и отображает в окне отладки
+ */
+function logDebug(message) {
+    var ts = new Date().toLocaleTimeString();
+    var line = '[' + ts + '] ' + message;
+    debugLogLines.push(line);
+    var el = document.getElementById('debug-log-content');
+    if (el) {
+        el.textContent = debugLogLines.join('\n');
+        el.scrollTop = el.scrollHeight;
+    }
+    console.log(line);
+}
+
+function toggleDebugWindow() {
+    var win = document.getElementById('debug-window');
+    if (!win) return;
+    win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
+}
+
+function clearDebugLog() {
+    debugLogLines = [];
+    var el = document.getElementById('debug-log-content');
+    if (el) el.textContent = '';
+}
+
+// ============================================================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================================
 
@@ -15,9 +48,36 @@ function initWarchiLD() {
     initStatusBar();
     loadConfig();
     scanDiaFolder();
+    initDebugWindow();
     // Загрузить онтологию VAD при старте
     loadVADOntologyOnStart();
-    setStatus('warchi-ld запущен. Загрузите файл или выберите пример.');
+    var startMsg = 'warchi-ld запущен. Загрузите файл или выберите пример.';
+    setStatus(startMsg);
+    logDebug(startMsg);
+}
+
+function initDebugWindow() {
+    var win = document.getElementById('debug-window');
+    if (!win) return;
+    // Сделать окно перетаскиваемым
+    var header = win.querySelector('.debug-window-header');
+    if (!header) return;
+    var isDragging = false, startX, startY, startLeft, startTop;
+    header.addEventListener('mousedown', function(e) {
+        if (e.target.tagName === 'BUTTON') return;
+        isDragging = true;
+        startX = e.clientX; startY = e.clientY;
+        startLeft = win.offsetLeft; startTop = win.offsetTop;
+        e.preventDefault();
+    });
+    document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        win.style.left = (startLeft + e.clientX - startX) + 'px';
+        win.style.top = (startTop + e.clientY - startY) + 'px';
+        win.style.right = 'auto';
+        win.style.bottom = 'auto';
+    });
+    document.addEventListener('mouseup', function() { isDragging = false; });
 }
 
 // ============================================================================
@@ -100,6 +160,8 @@ function setStatus(text) {
     // Дублируем в menu-status
     const ms = document.getElementById('menu-status');
     if (ms) ms.textContent = text;
+    // Дублируем в отладочный лог (только если это не рекурсивный вызов из logDebug)
+    logDebug('[status] ' + text);
 }
 
 function updateStatusBar() {
@@ -158,6 +220,101 @@ function scanDiaFolder() {
         opt.textContent = filename;
         select.appendChild(opt);
     });
+}
+
+/**
+ * Загружает выбранный пример из папки /dia
+ * Вызывается при изменении select#example-select
+ */
+function loadSelectedExample() {
+    const select = document.getElementById('example-select');
+    if (!select || !select.value) return;
+
+    const filePath = select.value;
+    const filename = filePath.split('/').pop();
+    const ext = filename.split('.').pop().toLowerCase();
+
+    logDebug('Загрузка примера: ' + filePath);
+    setStatus('Загрузка примера: ' + filename + '…');
+
+    // Обработка .warchi файлов (через конвертер)
+    if (ext === 'warchi') {
+        fetch(filePath)
+            .then(function(r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.text();
+            })
+            .then(function(text) {
+                if (typeof importWarchiFile_ === 'function') {
+                    importWarchiFile_(text);
+                } else {
+                    // Пробуем загрузить как текст напрямую
+                    var rdfInput = document.getElementById('rdf-input');
+                    if (rdfInput) rdfInput.value = text;
+                }
+                setStatus('Файл warchi загружен: ' + filename);
+                logDebug('Файл warchi загружен: ' + filename);
+            })
+            .catch(function(err) {
+                var msg = 'Ошибка загрузки ' + filename + ': ' + err.message;
+                setStatus(msg);
+                logDebug('ОШИБКА: ' + msg);
+            });
+        return;
+    }
+
+    // Обработка TTL/TriG файлов
+    fetch(filePath)
+        .then(function(r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.text();
+        })
+        .then(function(text) {
+            var rdfInput = document.getElementById('rdf-input');
+            if (rdfInput) rdfInput.value = text;
+
+            // Устанавливаем формат и режим
+            var formatSelect = document.getElementById('input-format');
+            if (formatSelect) formatSelect.value = 'trig';
+            var modeSelect = document.getElementById('visualization-mode');
+            if (modeSelect) modeSelect.value = 'vad-trig';
+            if (typeof updateModeDescription === 'function') updateModeDescription();
+
+            var statusEl = document.getElementById('example-status');
+            if (statusEl) {
+                statusEl.textContent = 'Файл ' + filename + ' успешно загружен';
+                statusEl.style.display = 'block';
+                statusEl.style.backgroundColor = '#d4edda';
+                statusEl.style.borderColor = '#c3e6cb';
+                statusEl.style.color = '#155724';
+            }
+
+            setStatus('Файл загружен: ' + filename);
+            logDebug('Файл загружен: ' + filename + ' (' + text.length + ' символов)');
+
+            // Автоматически визуализируем
+            if (typeof refreshVisualization === 'function') {
+                refreshVisualization();
+            }
+
+            // Разворачиваем панель Publisher
+            if (typeof applyPanelCollapsedState === 'function') {
+                applyPanelCollapsedState('5_publisher', false);
+            }
+        })
+        .catch(function(err) {
+            var msg = 'Ошибка загрузки ' + filename + ': ' + err.message;
+            setStatus(msg);
+            logDebug('ОШИБКА: ' + msg);
+            var statusEl = document.getElementById('example-status');
+            if (statusEl) {
+                statusEl.textContent = msg;
+                statusEl.style.display = 'block';
+                statusEl.style.backgroundColor = '#f8d7da';
+                statusEl.style.borderColor = '#f5c6cb';
+                statusEl.style.color = '#721c24';
+            }
+        });
 }
 
 // ============================================================================

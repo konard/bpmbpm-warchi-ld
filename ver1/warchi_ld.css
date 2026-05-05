@@ -483,3 +483,217 @@ body {
 body { max-width: none; padding: 0; }
 
 /* window-section уже определён выше — убираем дублирование из styles.css */
+
+/* ============================================================
+   ОКНО ОТЛАДКИ (растягиваемое, перетаскиваемое)
+   ============================================================ */
+.debug-window {
+    position: fixed;
+    bottom: 30px;
+    right: 16px;
+    width: 500px;
+    height: 240px;
+    min-width: 260px;
+    min-height: 120px;
+    background: #1e1e1e;
+    border: 1px solid #444;
+    border-radius: 5px;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    resize: both;
+    overflow: hidden;
+}
+
+.debug-window-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: move;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.debug-window-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.debug-btn-small {
+    padding: 1px 7px;
+    font-size: 11px;
+    background: #3d5166;
+    border: 1px solid #555;
+    border-radius: 3px;
+    color: #ecf0f1;
+    cursor: pointer;
+}
+
+.debug-btn-small:hover { background: #4a6278; }
+
+.debug-window-close {
+    background: none;
+    border: none;
+    color: #ecf0f1;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 2px;
+    line-height: 1;
+}
+
+.debug-window-body {
+    flex: 1;
+    overflow: auto;
+    padding: 6px 8px;
+}
+
+.debug-log-content {
+    font-family: 'Courier New', Consolas, monospace;
+    font-size: 11px;
+    color: #a8ff78;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.debug-window-resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 14px;
+    height: 14px;
+    cursor: se-resize;
+}
+
+/* ============================================================
+   SMART DESIGN TOOLBAR (в панели Smart Design)
+   ============================================================ */
+.smart-design-toolbar {
+    display: flex;
+    gap: 6px;
+    padding: 6px 0 8px 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+/* Вторичный стиль кнопки тулбара (для кнопки «Лог») */
+.toolbar-btn--secondary {
+    background: #f8f9fa;
+    color: #6c757d;
+    border-color: #ced4da;
+}
+
+/* ============================================================
+   КЛАССИЧЕСКИЙ РЕДАКТОР ДИАГРАММ
+   ============================================================ */
+.editor-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0 8px 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 8px;
+}
+
+.editor-layout {
+    display: flex;
+    gap: 0;
+    min-height: 420px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Палитра (трафарет) */
+.editor-palette-panel {
+    width: 120px;
+    min-width: 100px;
+    flex-shrink: 0;
+    background: #f8f9fa;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 6px;
+    overflow-y: auto;
+}
+
+.editor-palette-title,
+.editor-props-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #ddd;
+}
+
+.editor-palette {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.editor-palette-item {
+    cursor: grab;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.editor-palette-item:hover {
+    border-color: #3498db;
+    box-shadow: 0 1px 4px rgba(52,152,219,0.3);
+}
+
+.editor-palette-item:active {
+    cursor: grabbing;
+}
+
+/* Свойства выбранного элемента */
+.editor-props {
+    font-size: 11px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Холст */
+.editor-canvas-wrapper {
+    flex: 1;
+    overflow: auto;
+    background: #fafafa;
+}
+
+.editor-canvas-container {
+    min-width: 100%;
+    min-height: 100%;
+    cursor: default;
+}
+
+/* Фигуры редактора */
+.editor-shape {
+    transition: filter 0.1s;
+}
+
+.editor-shape:hover path,
+.editor-shape:hover polygon {
+    filter: brightness(0.92);
+}
+
+.editor-shape.selected path,
+.editor-shape.selected polygon {
+    filter: drop-shadow(0 0 4px rgba(255,111,0,0.7));
+}

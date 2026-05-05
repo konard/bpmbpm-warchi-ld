@@ -697,6 +697,17 @@
 
             // Обновляем SPARQL запрос для выбранного TriG
             updateSparqlQueryForTriG();
+
+            // Обновляем классический редактор диаграмм
+            if (typeof window.editorRefresh === 'function') {
+                window.editorRefresh();
+            }
+            // Показываем метку текущего графа в тулбаре редактора
+            const editorTrigLabel = document.getElementById('editor-trig-label');
+            if (editorTrigLabel && trigUri) {
+                const shortUri = trigUri.split('#').pop() || trigUri;
+                editorTrigLabel.textContent = 'Граф: ' + shortUri;
+            }
         }
 
         /**

@@ -4,6 +4,7 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix vad: <http://example.org/vad#> .
 
 
@@ -178,11 +179,15 @@ vad:t_p1 {
     # isSubprocessTrig указывается первым для явной связи с TriG
     vad:p1_1 vad:isSubprocessTrig vad:t_p1 ;
         vad:hasExecutor vad:ExecutorGroup_p1_1 ;
-        vad:hasNext vad:p1_2 .
+        vad:hasNext vad:p1_2 ;
+        vad:x "100"^^xsd:integer ;
+        vad:y "80"^^xsd:integer .
 
     # Процесс p1_2 - notDetailedChild
     vad:p1_2 vad:isSubprocessTrig vad:t_p1 ;
-        vad:hasExecutor vad:ExecutorGroup_p1_2 .
+        vad:hasExecutor vad:ExecutorGroup_p1_2 ;
+        vad:x "300"^^xsd:integer ;
+        vad:y "80"^^xsd:integer .
 
     # Группы исполнителей (ID формируется как ExecutorGroup_ + ID процесса)
     vad:ExecutorGroup_p1_1 rdf:type vad:ExecutorGroup ;
@@ -211,11 +216,15 @@ vad:t_p1_1 {
     # isSubprocessTrig указывается первым для явной связи с TriG
     vad:p1_1_1 vad:isSubprocessTrig vad:t_p1_1 ;
         vad:hasExecutor vad:ExecutorGroup_p1_1_1 ;
-        vad:hasNext vad:p1_1_2 .
+        vad:hasNext vad:p1_1_2 ;
+        vad:x "100"^^xsd:integer ;
+        vad:y "80"^^xsd:integer .
 
     # Процесс p1_1_2 - notDetailedExternal (hasParentProcess = p2, не совпадает с p1_1)
     vad:p1_1_2 vad:isSubprocessTrig vad:t_p1_1 ;
-        vad:hasExecutor vad:ExecutorGroup_p1_1_2 .
+        vad:hasExecutor vad:ExecutorGroup_p1_1_2 ;
+        vad:x "300"^^xsd:integer ;
+        vad:y "80"^^xsd:integer .
 
     # Группы исполнителей (ID формируется как ExecutorGroup_ + ID процесса)
     vad:ExecutorGroup_p1_1_1 rdf:type vad:ExecutorGroup ;
@@ -241,17 +250,23 @@ vad:t_p2 {
     # isSubprocessTrig указывается первым для явной связи с TriG
     vad:p2_1 vad:isSubprocessTrig vad:t_p2 ;
         vad:hasExecutor vad:ExecutorGroup_p2_1 ;
-        vad:hasNext vad:p2_2, vad:p1_1 .
+        vad:hasNext vad:p2_2, vad:p1_1 ;
+        vad:x "100"^^xsd:integer ;
+        vad:y "80"^^xsd:integer .
 
     # Процесс p2_2
     vad:p2_2 vad:isSubprocessTrig vad:t_p2 ;
-        vad:hasExecutor vad:ExecutorGroup_p2_2 .
+        vad:hasExecutor vad:ExecutorGroup_p2_2 ;
+        vad:x "300"^^xsd:integer ;
+        vad:y "80"^^xsd:integer .
 
     # rdf:type находится в vad:ptree
     # isSubprocessTrig указывается первым для явной связи с TriG
     vad:p1_1 vad:isSubprocessTrig vad:t_p2 ;
         vad:hasExecutor vad:ExecutorGroup_p1_1 ;
-        vad:hasNext vad:p1_1_1 .
+        vad:hasNext vad:p1_1_1 ;
+        vad:x "500"^^xsd:integer ;
+        vad:y "80"^^xsd:integer .
 
 ## vad:p1_1 в vad:t_p2 должен быть показан как детализируемый внешний
 ## vad:p1_1_1 в vad:t_p2 должен быть показан как НЕдетализируемый внешний
@@ -262,13 +277,17 @@ vad:t_p2 {
     # isSubprocessTrig указывается первым для явной связи с TriG
     vad:p1_1_1 vad:isSubprocessTrig vad:t_p2 ;
         vad:hasExecutor vad:ExecutorGroup_p1_1_1 ;
-        vad:hasNext vad:px_x .
+        vad:hasNext vad:px_x ;
+        vad:x "700"^^xsd:integer ;
+        vad:y "80"^^xsd:integer .
 
     # Процесс px_x
     # rdf:type находится в vad:ptree
     # isSubprocessTrig указывается первым для явной связи с TriG
     vad:px_x vad:isSubprocessTrig vad:t_p2 ;
-        vad:hasExecutor vad:ExecutorGroup_px_x .
+        vad:hasExecutor vad:ExecutorGroup_px_x ;
+        vad:x "900"^^xsd:integer ;
+        vad:y "80"^^xsd:integer .
 
     # Группы исполнителей (ID формируется как ExecutorGroup_ + ID процесса)
 

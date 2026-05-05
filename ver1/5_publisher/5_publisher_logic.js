@@ -209,7 +209,7 @@
                     currentMode = 'vad-trig';
 
                     const viz = await Viz.instance();
-                    const svgString = viz.renderString(dotCode, {
+                    const svgString = await viz.renderString(dotCode, {
                         format: 'svg',
                         engine: layoutEngine
                     });
@@ -273,7 +273,7 @@
                 console.log('Сгенерированный DOT-код:', dotCode);
 
                 const viz = await Viz.instance();
-                const svgString = viz.renderString(dotCode, {
+                const svgString = await viz.renderString(dotCode, {
                     format: 'svg',
                     engine: layoutEngine
                 });
@@ -343,7 +343,7 @@
                 console.log('Пересгенерированный DOT-код:', dotCode);
 
                 const viz = await Viz.instance();
-                const svgString = viz.renderString(dotCode, { format: 'svg', engine: layoutEngine });
+                const svgString = await viz.renderString(dotCode, { format: 'svg', engine: layoutEngine });
 
                 const output = document.getElementById('output');
                 output.innerHTML = svgString;
@@ -390,7 +390,7 @@
                 currentMode = originalMode;
 
                 const viz = await Viz.instance();
-                const svgString = viz.renderString(dotCode, { format: 'svg', engine: layoutEngine });
+                const svgString = await viz.renderString(dotCode, { format: 'svg', engine: layoutEngine });
 
                 // В режиме VAD TriG используем специальный контейнер vad-trig-output
                 const output = document.getElementById('vad-trig-output');
@@ -645,7 +645,7 @@
                     currentMode = 'vad-trig';
 
                     const viz = await Viz.instance();
-                    const svgString = viz.renderString(dotCode, {
+                    const svgString = await viz.renderString(dotCode, {
                         format: 'svg',
                         engine: layoutEngine
                     });
@@ -709,7 +709,7 @@
                 currentDotCode = dotCode;
 
                 const viz = await Viz.instance();
-                const svgString = viz.renderString(dotCode, {
+                const svgString = await viz.renderString(dotCode, {
                     format: 'svg',
                     engine: layoutEngine
                 });
@@ -1849,15 +1849,15 @@
             const smartDesignContainer = document.getElementById('smart-design-container');
 
             // Скрываем оба панели по умолчанию
-            sparqlPanel.classList.remove('visible');
-            smartDesignContainer.classList.remove('visible');
+            if (sparqlPanel) sparqlPanel.classList.remove('visible');
+            if (smartDesignContainer) smartDesignContainer.classList.remove('visible');
 
             if (sparqlMode === 'smart-design') {
                 // SPARQL Smart Design отображается только в режиме VAD TriG
                 if (visualizationMode === 'vad-trig') {
-                    smartDesignContainer.classList.add('visible');
+                    if (smartDesignContainer) smartDesignContainer.classList.add('visible');
                     // В режиме SPARQL Smart Design всегда также отображается окно SPARQL запрос
-                    sparqlPanel.classList.add('visible');
+                    if (sparqlPanel) sparqlPanel.classList.add('visible');
                     // Заполняем выпадающие списки при активации Smart Design
                     populateSmartDesignDropdowns();
                     // Показываем справочные сообщения при открытии панели
